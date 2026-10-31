@@ -1,0 +1,36 @@
+@use 'sass:map';
+@use '../abstracts/tokens';
+@use '../abstracts/functions' as fn;
+
+/// Emit every token of a theme as a CSS custom property.
+@mixin emit($name) {
+  @each $token, $value in map.get(tokens.$themes, $name) {
+    --#{$token}: #{$value};
+  }
+  @each $name, $value in tokens.$radius { --r-#{$name}: #{$value}; }
+  --sans: #{tokens.$font-sans};
+  --mono: #{tokens.$font-mono};
+  --ring: 0 0 0 1px var(--border);
+  --shadow-1: 0 1px 0 rgba(255, 255, 255, .03) inset, 0 12px 32px -18px rgba(0, 0, 0, .55);
+  --shadow-3: var(--shadow-1);
+  --shadow-5: 0 24px 48px -16px rgba(0, 0, 0, .6);
+}
+
+// Dark is the default (first paint before JS), light is opt-in from the top bar.
+:root, :root[data-theme="dark"] { @include emit(dark); color-scheme: dark; }
+:root[data-theme="light"] {
+  @include emit(light);
+  --shadow-1: 0 1px 2px rgba(22, 19, 31, .04), 0 8px 24px -16px rgba(22, 19, 31, .18);
+  --shadow-3: var(--shadow-1);
+  --shadow-5: 0 24px 48px -20px rgba(22, 19, 31, .25);
+  color-scheme: light;
+}
+
+// Violet glow behind the top of every page (the reference's hero light), never under text-heavy tables.
+body {
+  background:
+    radial-gradient(1200px 520px at 18% -180px, var(--glow), transparent 70%),
+    radial-gradient(900px 420px at 92% -220px, var(--glow), transparent 72%),
+    var(--bg);
+  background-attachment: fixed;
+}

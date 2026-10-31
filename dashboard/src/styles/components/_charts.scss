@@ -1,0 +1,80 @@
+@use '../abstracts/functions' as fn;
+@use '../abstracts/mixins' as mx;
+
+.sr-only { @include mx.visually-hidden; }
+
+.legend {
+  display: flex; flex-wrap: wrap; gap: fn.space(4); margin-top: fn.space(3);
+  font-size: 12px; color: fn.color(muted);
+  span { display: inline-flex; align-items: center; gap: fn.space(2); }
+  i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+  i.ok { background: fn.color(chart-2); }
+  i.fail { background: fn.color(chart-1); }
+}
+
+// Area chart
+.area-chart {
+  margin: 0;
+  svg { display: block; width: 100%; height: 220px; overflow: visible; }
+  .grid-line { stroke: fn.color(border); stroke-dasharray: 3 5; }
+  .axis { fill: fn.color(muted); font-size: 11px; font-family: var(--mono); }
+}
+
+// Pill columns (delivered + failed)
+.outcome-bars {
+  margin: 0;
+  .bars { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: fn.space(2); height: 200px; align-items: end; }
+  .bar-col { display: flex; flex-direction: column; align-items: center; gap: fn.space(2); height: 100%; min-width: 0;
+    small { font-family: var(--mono); font-size: 10px; } }
+  .bar-track { position: relative; flex: 1; width: min(26px, 100%); display: flex; flex-direction: column; justify-content: flex-end;
+    border-radius: fn.radius(pill); background: color-mix(in srgb, fn.color(surface-2) 70%, transparent); overflow: hidden; }
+  .bar-ok { background: fn.color(chart-2); border-radius: fn.radius(pill) fn.radius(pill) 0 0; transition: height .4s ease; }
+  .bar-fail { background: fn.color(chart-1); transition: height .4s ease; }
+  .bar-ok:only-child, .bar-fail + .bar-ok[style*="0%"] { border-radius: fn.radius(pill); }
+}
+
+// Segment donut with legend
+.segment-donut {
+  // Donut on top, full-width legend below: the card is narrow (4 of 12 columns), names must not be cut.
+  margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: fn.space(5); justify-items: center;
+  .donut-wrap { position: relative; width: 150px; height: 150px;
+    svg { width: 100%; height: 100%; filter: drop-shadow(0 0 18px var(--glow)); } }
+  .donut-center { position: absolute; inset: 0; display: grid; place-content: center; text-align: center;
+    strong { font-size: 26px; color: fn.color(heading); @include mx.tabular; } }
+  .donut-legend { list-style: none; margin: 0; padding: 0; display: grid; gap: fn.space(2); width: 100%;
+    li { display: grid; grid-template-columns: 10px minmax(0, 1fr) auto 40px; align-items: center; gap: fn.space(2);
+      padding: fn.space(2) fn.space(3); border-radius: fn.radius(sm); background: fn.color(surface-2); }
+    i { width: 10px; height: 10px; border-radius: 3px; }
+    span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: fn.color(text); }
+    strong { color: fn.color(heading); @include mx.tabular; }
+    small { text-align: end; } }
+}
+
+// Funnel
+.funnel {
+  margin: 0;
+  ol { list-style: none; margin: 0; padding: 0; display: grid; gap: fn.space(4); }
+  .funnel-head { display: flex; justify-content: space-between; margin-bottom: fn.space(2); color: fn.color(text);
+    strong { color: fn.color(heading); @include mx.tabular; } }
+  .funnel-track { position: relative; height: 30px; border-radius: fn.radius(pill); background: fn.color(surface-2);
+    div { height: 100%; border-radius: inherit; min-width: 0;
+      background: linear-gradient(90deg, fn.color(chart-1), fn.color(chart-3));
+      box-shadow: 0 0 24px -6px var(--glow); transition: width .5s ease; }
+    small { position: absolute; inset-inline-end: fn.space(3); top: 50%; transform: translateY(-50%); color: fn.color(heading); font-family: var(--mono); } }
+}
+
+// Heatmap (weekday × 3-hour buckets)
+.heatmap { margin: 0; overflow-x: auto; }
+.heat-grid {
+  display: grid; grid-template-columns: 44px repeat(8, minmax(34px, 1fr)); gap: 6px; min-width: 360px;
+  .heat-col, .heat-day { font-family: var(--mono); font-size: 10px; align-self: center; }
+  .heat-col { text-align: center; }
+}
+.heat-cell {
+  display: grid; place-items: center; aspect-ratio: 1.35; border-radius: fn.radius(sm);
+  font-size: 11px; font-family: var(--mono); color: fn.color(muted); background: fn.color(surface-2);
+  &.l1 { background: color-mix(in srgb, fn.color(chart-2) 22%, fn.color(surface-2)); color: fn.color(heading); }
+  &.l2 { background: color-mix(in srgb, fn.color(chart-2) 70%, fn.color(surface-2)); color: #16131f; }
+  &.l3 { background: fn.color(chart-3); color: #16131f; }
+  &.l4 { background: fn.color(chart-1); color: #fff; box-shadow: 0 0 16px -4px var(--glow); }
+}

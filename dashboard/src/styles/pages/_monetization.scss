@@ -1,0 +1,55 @@
+/* Monetization */
+.switch { position: relative; display: inline-block; width: 40px; height: 24px; flex-shrink: 0; cursor: pointer; }
+.switch input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.switch span { position: absolute; inset: 0; border-radius: 999px; background: var(--border-strong); transition: background .15s; pointer-events: none; }
+.switch span::after { content: ""; position: absolute; top: 3px; inset-inline-start: 3px; width: 18px; height: 18px; border-radius: 50%;
+  background: #fff; box-shadow: 0 1px 2px rgba(0, 0, 0, .2); transition: transform .15s; }
+.switch input:checked + span { background: var(--primary); }
+.switch input:checked + span::after { transform: translateX(16px); }
+[dir="rtl"] .switch input:checked + span::after { transform: translateX(-16px); }
+.switch input:focus-visible + span { outline: 2px solid var(--link); outline-offset: 2px; }
+.money .panel + .panel { margin-top: 0; }
+.money-section { display: grid; gap: 16px; }
+.money-section .panel-title { margin: -20px -20px 0; align-items: flex-start; }
+.money-section .panel-title h2 { margin-bottom: 0; }
+.money-head { display: flex; gap: 12px; align-items: flex-start; min-width: 0; }
+.money-head p { max-width: 640px; }
+.money-toggle { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.money-toggle small { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.money-body { display: grid; gap: 16px; transition: opacity .15s; }
+.money-section.is-off .money-body { opacity: .55; }
+.money-group { display: grid; gap: 12px; }
+.money-group + .money-group { padding-top: 16px; border-top: 1px solid var(--border); }
+.money-group h3 { font-size: 13px; font-weight: 600; color: var(--heading); }
+.plan-list { display: grid; gap: 8px; }
+.plan-row { display: grid; grid-template-columns: 120px 140px 140px minmax(0, 1fr) auto; gap: 12px; align-items: end; }
+.plan-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.plan-card { display: grid; gap: 12px; padding: 14px; border-radius: var(--r-md); box-shadow: var(--ring); align-content: start; transition: opacity .15s; }
+.plan-card.is-off { opacity: .55; }
+.plan-card-head { display: flex; align-items: center; gap: 10px; }
+.plan-card-head select { flex: 1; height: 36px; }
+.plan-fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.plan-fields label { font-size: 12px; }
+.plan-fields input { height: 36px; }
+.plan-summary { display: grid; gap: 2px; padding: 10px 12px; border-radius: var(--r-sm); background: var(--surface-2); }
+.plan-summary strong { color: var(--heading); }
+.plan-summary span { font-size: 15px; font-weight: 600; color: var(--heading); }
+.plan-summary s { margin-inline-start: 6px; font-weight: 400; color: var(--muted); }
+.plan-summary em { margin-inline-start: 6px; font-style: normal; font-size: 12px; padding: 1px 6px; border-radius: 999px; background: var(--warning-soft); color: var(--warning-ink); }
+.plan-summary small { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.fields.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.copy-field { display: flex; gap: 8px; align-items: center; min-width: 0; }
+.copy-field code { flex: 1; min-width: 0; padding: 9px 12px; border-radius: var(--r-sm); background: var(--surface-2); font-family: var(--mono);
+  font-size: 12px; overflow-wrap: anywhere; font-weight: 400; }
+.note { padding: 10px 12px; border-radius: var(--r-md); background: var(--info-soft); color: var(--info-ink); font-size: 13px; }
+.money-body .hint a { color: var(--link); }
+.pad-x { padding: 0 4px; }
+.badge.order-paid { background: var(--success-soft); color: var(--success-ink); }
+.badge.order-pending { background: var(--info-soft); color: var(--info-ink); }
+.badge.order-failed, .badge.order-refunded { background: var(--danger-soft); color: var(--danger-ink); }
+.badge.order-expired, .badge.order-canceled { background: var(--warning-soft); color: var(--warning-ink); }
+.plan-row .payout { align-self: center; padding-top: 22px; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.money .money-body > button, .money-group > button { justify-self: start; }
+.hint { font-size: 13px; color: var(--muted); }
+.translation-list { display: grid; gap: 10px; max-height: 560px; overflow: auto; padding-inline-end: 4px; }
+.translation-list label span { font-size: 12px; color: var(--muted); }

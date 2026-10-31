@@ -1,0 +1,19 @@
+/* Guide: one card per bot with numbered steps */
+.guide-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding: 20px; }
+.guide-card { display: flex; flex-direction: column; gap: 12px; padding: 16px; border-radius: var(--r-md); background: var(--surface); box-shadow: var(--ring); }
+.guide-card-head { display: flex; align-items: center; gap: 12px; }
+.guide-card h3 { font-size: 15px; line-height: 20px; font-weight: 600; color: var(--heading); }
+.guide-card-head small { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0; }
+.guide-card p { font-size: 13px; line-height: 20px; }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; counter-reset: step; }
+.steps li { display: flex; gap: 10px; font-size: 13px; line-height: 20px; color: var(--heading); counter-increment: step; }
+.steps li::before { content: counter(step); flex-shrink: 0; width: 20px; height: 20px; display: grid; place-items: center; border-radius: 50%;
+  background: var(--primary); color: var(--on-primary); font-family: var(--mono); font-size: 11px; line-height: 1; }
+.guide-card a.open { margin-top: auto; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: var(--heading); text-decoration: none; }
+.guide-card a.open:hover { text-decoration: underline; }
+[dir="rtl"] .guide-card a.open .icon, [dir="rtl"] .panel-title button .icon, [dir="rtl"] .hero button .icon { transform: scaleX(-1); }
+.guide-sections { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.guide-sections .panel + .panel { margin-top: 0; }
+.guide-notes { list-style: none; margin: 0; padding: 12px 20px 16px; display: grid; gap: 12px; }
+.guide-notes li { display: flex; gap: 10px; font-size: 13px; line-height: 20px; }
+.guide-notes .icon { flex-shrink: 0; margin-top: 2px; color: var(--success); }

@@ -1,0 +1,11 @@
+/* Channel: bots with ticks and admin lamps */
+.channel-form { display: grid; gap: 14px; }
+.bot-picker { display: grid; gap: 8px; }
+.bot-picker-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-weight: 500; color: var(--heading); }
+.bot-picker .proxy-list li { border: 1px solid var(--border); }
+.bot-picker .proxy-list li.is-dim { opacity: .55; }
+.bot-picker label.pick { display: flex; align-items: center; gap: 10px; margin: 0; cursor: pointer; }
+.bot-picker label.pick input { width: 18px; height: 18px; }
+.bot-picker label.pick code { font-size: 13px; font-weight: 600; }
+.bot-picker .proxy-list li > label.pick { flex: 1 1 auto; flex-basis: auto; }
+.bot-picker .proxy-list li { padding: 10px 12px; }

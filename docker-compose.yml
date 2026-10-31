@@ -1,0 +1,144 @@
+name: aws-media-hub
+
+x-app: &app
+  # Built once by the `migrate` service; the other services reuse the image
+  # (several services building the same tag in parallel fails with "already exists").
+  image: aws-media-hub-app
+  pull_policy: never
+  env_file: .env
+  restart: unless-stopped
+  networks: [private]
+  security_opt: [no-new-privileges:true]
+  cap_drop: [ALL]
+  read_only: true
+  volumes:
+    - files-data:/data/files    # STORAGE_BACKEND=local keeps user files here
+  tmpfs:
+    - /tmp:size=1536m,uid=10001,gid=10001,mode=1770
+  logging:
+    driver: json-file
+    options: {max-size: 10m, max-file: '3'}
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: media
+      POSTGRES_DB: media
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+    volumes: [postgres-data:/var/lib/postgresql/data]
+    networks: [private]
+    restart: unless-stopped
+    healthcheck: {test: [CMD-SHELL, 'pg_isready -U media -d media'], interval: 10s, retries: 10}
+
+  redis:
+    image: redis:7-alpine
+    command: [redis-server, --appendonly, 'yes', --maxmemory, 256mb, --maxmemory-policy, noeviction]
+    volumes: [redis-data:/data]
+    networks: [private]
+    restart: unless-stopped
+    healthcheck: {test: [CMD, redis-cli, ping], interval: 10s, retries: 10}
+
+  # Optional S3 storage, only with STORAGE_BACKEND=s3: docker compose --profile minio up -d
+  minio:
+    profiles: [minio]
+    image: minio/minio:RELEASE.2025-04-22T22-12-26Z
+    command: server /data
+    environment:
+      MINIO_ROOT_USER: ${S3_ACCESS_KEY:?Set S3_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${S3_SECRET_KEY:?Set S3_SECRET_KEY}
+    volumes: [minio-data:/data]
+    networks: [private]
+    restart: unless-stopped
+    # `mc` ships with the MinIO image (curl does not in current releases).
+    healthcheck: {test: [CMD, mc, ready, local], interval: 10s, retries: 10}
+
+  migrate:
+    <<: *app
+    build: {context: ., dockerfile: infrastructure/docker/backend.Dockerfile}
+    pull_policy: missing
+    restart: 'no'
+    command: [sh, -c, 'alembic upgrade head && python -m backend.cli seed']
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+
+  api:
+    <<: *app
+    # Published only on localhost for Plesk. Change API_PORT in .env if 8000 is taken on the server.
+    ports: ['127.0.0.1:${API_PORT:-8000}:8000']
+    networks: [private, edge]  # Docker does not publish ports of containers on internal-only networks
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://localhost:8000/health/ready', timeout=5)"]
+      interval: 15s
+      timeout: 8s
+      retries: 5
+
+  # Outbound proxy for workers: blocks requests to private/internal addresses (SSRF protection).
+  egress:
+    <<: *app
+    command: [python, -m, infrastructure.egress]
+    networks: [private, internet]
+    healthcheck:
+      test: [CMD, python, -c, "import socket; socket.create_connection(('127.0.0.1',3128), 3).close()"]
+      interval: 30s
+      retries: 3
+
+  worker:
+    <<: *app
+    # Premium jobs ("priority") are always taken before the default queue.
+    command: [celery, -A, workers.celery_app:celery, worker, -Q, 'priority,celery', --loglevel=INFO, '--concurrency=${WORKER_CONCURRENCY:-2}']
+    mem_limit: 2g
+    pids_limit: 256
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      egress: {condition: service_healthy}
+
+  beat:
+    <<: *app
+    command: [celery, -A, workers.celery_app:celery, beat, --loglevel=INFO, --schedule=/tmp/celerybeat-schedule]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+
+  video-bot:
+    <<: *app
+    command: [python, -m, bots.video]
+    networks: [private, internet]
+    depends_on: {api: {condition: service_healthy}}
+    healthcheck: {test: [CMD, python, -m, bots.health, video], interval: 60s, start_period: 60s, retries: 3}
+
+  media-bot:
+    <<: *app
+    command: [python, -m, bots.media]
+    networks: [private, internet]
+    depends_on: {api: {condition: service_healthy}}
+    healthcheck: {test: [CMD, python, -m, bots.health, media], interval: 60s, start_period: 60s, retries: 3}
+
+  files-bot:
+    <<: *app
+    command: [python, -m, bots.file_sharing]
+    networks: [private, internet]
+    depends_on: {api: {condition: service_healthy}}
+    healthcheck: {test: [CMD, python, -m, bots.health, files], interval: 60s, start_period: 60s, retries: 3}
+
+  dashboard:
+    build: dashboard
+    ports: ['127.0.0.1:${DASHBOARD_PORT:-8080}:8080']  # change DASHBOARD_PORT in .env if 8080 is taken
+    networks: [private, edge]
+    restart: unless-stopped
+    security_opt: [no-new-privileges:true]
+    depends_on: {api: {condition: service_healthy}}
+    healthcheck: {test: [CMD, wget, -q, -O, /dev/null, http://127.0.0.1:8080/], interval: 30s, retries: 3}
+
+networks:
+  private: {internal: true}  # databases, storage, workers: no direct internet access
+  internet: {}               # bots and the egress proxy
+  edge: {}                   # api and dashboard: only for publishing their localhost ports
+
+volumes:
+  postgres-data:
+  redis-data:
+  files-data:
+  minio-data:

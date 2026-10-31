@@ -1,0 +1,31 @@
+/* Ads: Telegram-style editor, live preview, sent posts */
+.compose-body { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(280px, 1fr); gap: 24px; padding: 20px; }
+.compose-form { display: grid; gap: 16px; align-content: start; }
+.compose-form fieldset { margin: 0; }
+.compose-row, .publish-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.publish-row { justify-content: space-between; padding-top: 16px; border-top: 1px solid var(--border); }
+.publish-row span { font-weight: 500; color: var(--heading); }
+.test-row { display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap; }
+.test-row label { flex: 1; min-width: 220px; }
+.test-row small { font-weight: 400; color: var(--muted); }
+.checkbox.wide { flex-basis: 100%; }
+.file-button.secondary { gap: 8px; padding: 0 12px; background: var(--surface); color: var(--heading); box-shadow: var(--ring); }
+.file-button.secondary:hover { background: var(--surface-2); }
+.post-editor { display: grid; border-radius: var(--r-md); box-shadow: var(--ring); background: var(--surface); }
+.post-editor:focus-within { box-shadow: 0 0 0 1px var(--heading), 0 0 0 4px var(--primary-soft); }
+.post-toolbar { display: flex; flex-wrap: wrap; gap: 2px; padding: 6px; border-bottom: 1px solid var(--border); }
+.post-toolbar button { min-width: 34px; min-height: 32px; padding: 0 8px; box-shadow: none; background: transparent; font-size: 14px; }
+.post-toolbar button:hover, .post-toolbar button.on { background: var(--surface-2); }
+.post-toolbar button.on { color: var(--link); }
+.post-toolbar .fmt-bold { font-weight: 700; }
+.post-toolbar .fmt-italic { font-style: italic; font-family: Georgia, serif; }
+.post-toolbar .fmt-underline { text-decoration: underline; }
+.post-toolbar .fmt-strike { text-decoration: line-through; }
+.post-toolbar .fmt-code, .post-toolbar .fmt-pre { font-family: var(--mono); font-size: 12px; }
+.link-bar { display: flex; gap: 6px; padding: 8px; border-bottom: 1px solid var(--border); }
+.link-bar input { height: 34px; }
+.post-input { min-height: 180px; max-height: 480px; overflow-y: auto; padding: 12px 14px; outline: none; color: var(--heading); line-height: 1.5;
+  white-space: pre-wrap; overflow-wrap: anywhere; }
+.post-input:empty::before { content: attr(data-placeholder); color: var(--muted); pointer-events: none; }
+.post-counter { padding: 0 12px 8px; text-align: end; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.post-counter.over { color: var(--danger-ink); font-weight: 600; }

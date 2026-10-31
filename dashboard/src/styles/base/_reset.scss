@@ -1,0 +1,14 @@
+* { box-sizing: border-box; }
+html, body { margin: 0; color: var(--text); }
+html { background: var(--bg); }
+body { font-family: var(--sans); font-size: 14px; line-height: 20px; letter-spacing: -.28px; -webkit-font-smoothing: antialiased; }
+::selection { background: var(--primary); color: var(--on-primary); }
+h1, h2, h3, p { margin: 0; }
+h1 { font-size: 24px; line-height: 32px; font-weight: 600; letter-spacing: -.96px; color: var(--heading); }
+h2 { font-size: 16px; line-height: 24px; font-weight: 600; letter-spacing: -.32px; color: var(--heading); }
+p { color: var(--text); }
+small { color: var(--muted); font-size: 12px; line-height: 16px; letter-spacing: 0; }
+a { color: var(--link); text-decoration: none; font-weight: 500; }
+a:hover { text-decoration: underline; }
+.icon { flex-shrink: 0; }
+.mono, .eyebrow, .nav-label, th, .pill, .version { font-family: var(--mono); letter-spacing: 0; }

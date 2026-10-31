@@ -1,0 +1,51 @@
+@use 'sass:map';
+
+// Design tokens of the Media Hub dashboard ("dark CRM pipeline" direction).
+// Single source of truth: themes/_theme.scss turns these maps into CSS custom properties, so components only
+// ever read var(--token) and both themes stay in sync. Text contrast is checked by tests/unit/test_design_tokens.py
+// (WCAG AA: 4.5:1 for text on every surface).
+
+$brand: (
+  violet: #8b6cff,
+  violet-strong: #6d4aff,
+  lavender: #b9a7ff,
+  lime: #bcf127,   // AfoninWebStudio logo
+  ink: #0a0911,
+);
+
+$themes: (
+  dark: (
+    bg: #0a0911, surface: #13111c, surface-2: #1b1828, surface-3: #231f33,
+    border: #262236, border-strong: #3a3452, track: #262236,
+    heading: #f5f3ff, text: #bdb7d3, muted: #8a84a3,
+    primary: map.get($brand, violet), on-primary: #ffffff, primary-hover: #9d82ff, primary-soft: rgba(139, 108, 255, .16),
+    link: map.get($brand, lavender), link-deep: #cfc2ff,
+    success: #34d399, success-soft: rgba(52, 211, 153, .14), success-ink: #6ee7b7,
+    danger: #fb7185, danger-soft: rgba(251, 113, 133, .14), danger-ink: #fda4af,
+    warning: #fbbf24, warning-soft: rgba(251, 191, 36, .14), warning-ink: #fcd34d,
+    info: #a78bfa, info-soft: rgba(167, 139, 250, .16), info-ink: #c4b5fd,
+    chart-1: map.get($brand, violet), chart-2: #ece8ff, chart-3: map.get($brand, lavender), chart-4: #5b4bb3, chart-5: map.get($brand, lime),
+    glow: rgba(139, 108, 255, .38), glass: rgba(27, 24, 40, .72),
+    brand-lime: map.get($brand, lime),
+  ),
+  light: (
+    bg: #f6f5fb, surface: #ffffff, surface-2: #f0eef8, surface-3: #e8e5f4,
+    border: #e6e3f0, border-strong: #c9c4dc, track: #ebe8f5,
+    heading: #16131f, text: #4a4560, muted: #6f6988,
+    primary: map.get($brand, violet-strong), on-primary: #ffffff, primary-hover: #5a36f0, primary-soft: #eee9ff,
+    link: #5a36f0, link-deep: #4523d6,
+    success: #059669, success-soft: #d1fae5, success-ink: #047857,
+    danger: #e11d48, danger-soft: #ffe4e6, danger-ink: #be123c,
+    warning: #d97706, warning-soft: #fef3c7, warning-ink: #b45309,
+    info: #7c3aed, info-soft: #ede9fe, info-ink: #6d28d9,
+    chart-1: map.get($brand, violet-strong), chart-2: #c9bdff, chart-3: #8b6cff, chart-4: #3b2a8f, chart-5: #7fae00,
+    glow: rgba(109, 74, 255, .16), glass: rgba(255, 255, 255, .78),
+    brand-lime: #7fae00,
+  ),
+);
+
+$radius: (sm: 10px, md: 12px, lg: 18px, xl: 24px, pill: 999px);
+$space: (1: 4px, 2: 8px, 3: 12px, 4: 16px, 5: 20px, 6: 24px, 8: 32px, 10: 40px);
+$breakpoints: (mobile: 599px, tablet: 959px, wide: 1280px);
+$font-sans: "Geist Sans", Geist, Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+$font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;

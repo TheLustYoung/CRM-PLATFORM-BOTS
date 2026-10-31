@@ -1,0 +1,21 @@
+/* Layout guards for every page and language: long words, long select options and wide charts never push a card wider. */
+select { max-width: 100%; min-width: 0; text-overflow: ellipsis; }
+.youtube-access, .settings { grid-template-columns: minmax(0, 1fr); min-width: 0; }
+.panel-title { flex-wrap: wrap; }
+.panel-title > div { min-width: 0; flex: 1 1 220px; }
+.panel-title h2, .panel-title p, h1, h2, h3 { overflow-wrap: anywhere; }
+.row-actions { flex-wrap: wrap; }
+a.button { max-width: 100%; white-space: normal; text-align: center; }
+.stacked { overflow-x: auto; }
+.proxy-list li > * { min-width: 0; max-width: 100%; }
+.proxy-list li > div, .proxy-list li > small, .proxy-list li > form, .proxy-list li > label { flex-basis: 100%; overflow-wrap: anywhere; }
+.proxy-list .badge, .ad-card .pill { white-space: normal; height: auto; min-height: 22px; text-align: start; }
+.proxy-list code { overflow-wrap: anywhere; }
+.money-section, .ad-card { grid-template-columns: minmax(0, 1fr); }
+.ad-card-head { flex-wrap: wrap; }
+.stacked-col { min-width: 26px; }
+.stacked-col small { white-space: nowrap; }
+@media (max-width: 760px) {
+  .stacked-bars { gap: 6px; }
+  .fields { grid-template-columns: minmax(0, 1fr) !important; }
+}

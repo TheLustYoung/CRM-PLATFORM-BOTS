@@ -1,0 +1,57 @@
+@use 'sass:map';
+@use 'tokens';
+@use 'functions' as fn;
+
+/// Mobile-first media queries from the breakpoint map: @include down(tablet) { … }
+@mixin down($name) {
+  @media (max-width: map.get(tokens.$breakpoints, $name)) { @content; }
+}
+@mixin up($name) {
+  @media (min-width: map.get(tokens.$breakpoints, $name) + 1) { @content; }
+}
+
+/// The card surface used by every panel: hairline border, soft depth, large radius.
+@mixin card($radius: lg, $padding: 5) {
+  background: fn.color(surface);
+  border: 1px solid fn.color(border);
+  border-radius: fn.radius($radius);
+  padding: fn.space($padding);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .03) inset, 0 12px 32px -18px rgba(0, 0, 0, .55);
+}
+
+/// Card header row: title and an optional action on the right.
+@mixin card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: fn.space(3);
+  margin-bottom: fn.space(4);
+  h2 { display: flex; align-items: center; gap: fn.space(2); font-size: 15px; }
+}
+
+/// Small rounded label (filters, deltas, statuses).
+@mixin chip($bg: fn.color(surface-2), $fg: fn.color(text)) {
+  display: inline-flex;
+  align-items: center;
+  gap: fn.space(1);
+  height: 26px;
+  padding: 0 fn.space(3);
+  border-radius: fn.radius(pill);
+  background: $bg;
+  color: $fg;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/// Numbers that must line up in columns and not jump while updating.
+@mixin tabular { font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+
+/// Visible keyboard focus that works on both themes.
+@mixin focus-ring { outline: 2px solid fn.color(link); outline-offset: 2px; }
+
+/// Hide visually, keep for screen readers (chart data tables).
+@mixin visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}

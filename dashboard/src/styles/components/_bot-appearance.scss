@@ -1,0 +1,19 @@
+/* Bot appearance */
+.appearance { margin-bottom: 24px; }
+.appearance-body { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 24px; padding: 20px; }
+.photo-block { display: flex; flex-direction: column; gap: 10px; }
+.photo-block img, .photo-empty { width: 100%; aspect-ratio: 1; border-radius: 50%; object-fit: cover; background: var(--surface-2); box-shadow: var(--ring); }
+.photo-empty { display: grid; place-items: center; color: var(--muted); font-family: var(--mono); font-size: 12px; }
+.file-button { display: flex; align-items: center; justify-content: center; min-height: 36px; border-radius: var(--r-sm); cursor: pointer;
+  background: var(--primary); color: var(--on-primary); font-weight: 500; }
+.file-button:hover { background: var(--primary-hover); }
+.file-button input { display: none; }
+.profile-form form { display: flex; flex-direction: column; gap: 16px; }
+.profile-form label small { align-self: flex-end; font-family: var(--mono); }
+.profile-form small.over { color: var(--danger-ink); }
+.profile-form fieldset { flex-direction: column; flex-wrap: nowrap; margin: 0; }
+.lang-tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 16px; padding: 4px; border-radius: var(--r-md); background: var(--surface-2); width: fit-content; max-width: 100%; }
+.lang-tabs button { min-height: 32px; box-shadow: none; background: transparent; color: var(--text); }
+.lang-tabs button.active { background: var(--surface); color: var(--heading); box-shadow: var(--shadow-1); }
+.command-row { display: grid; grid-template-columns: auto 150px minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+.command-row span { font-family: var(--mono); color: var(--muted); }

@@ -1,0 +1,25 @@
+/* Tablet (600–959px): 2-up grids, sidebar becomes a sheet */
+@media (max-width: 1199px) {
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .charts { grid-template-columns: 1fr; }
+  .bot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .guide-sections { grid-template-columns: 1fr; }
+}
+@media (max-width: 959px) {
+  .shell { display: block; }
+  aside { position: fixed; inset-block: 0; inset-inline-start: 0; width: 280px; max-width: 86vw; transform: translateX(-105%); transition: transform .2s ease; box-shadow: var(--shadow-5); }
+  [dir="rtl"] aside { transform: translateX(105%); }
+  .menu-open aside { transform: none; }
+  .menu-open .overlay { display: block; position: fixed; inset: 0; z-index: 35; background: rgba(0, 0, 0, .4); }
+  .menu-btn { display: inline-flex; }
+  .main { padding: 0 16px 24px; }
+  .topbar { height: 56px; margin: 0 -16px 16px; padding: 0 16px; }
+  .topbar .title p, .topbar .lang-select { display: none; }
+  .bot-grid, .fields, .appearance-body, .guide-grid, .compose-body { grid-template-columns: 1fr; }
+  .post-list { grid-template-columns: 1fr; padding: 16px; }
+  .compose-body { padding: 16px; }
+  .guide-grid { padding: 16px; }
+  .photo-block { max-width: 180px; }
+  .login { grid-template-columns: 1fr; }
+  .login-story { display: none; }
+}

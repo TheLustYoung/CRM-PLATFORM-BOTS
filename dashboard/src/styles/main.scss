@@ -1,0 +1,39 @@
+// AfoninWebStudio Media Hub: dashboard styles.
+//
+// abstracts/  design tokens, functions and mixins; produce no CSS by themselves
+// themes/     tokens -> CSS custom properties for the dark (default) and light themes
+// base/       element defaults and layout guards
+// layout/     app shell and responsive breakpoints
+// components/ reusable UI pieces (controls, cards, tables, charts, …)
+// pages/      page-specific rules
+//
+// Partials are loaded in cascade order: later files may refine earlier ones.
+
+@use 'themes/theme';
+
+@use 'base/reset';
+@use 'components/controls';
+@use 'layout/shell';
+@use 'components/cards';
+@use 'pages/overview';
+@use 'pages/guide';
+@use 'pages/bots';
+@use 'components/tables';
+@use 'components/forms';
+@use 'components/language-picker';
+@use 'pages/ads';
+@use 'components/telegram-text';
+@use 'pages/monetization';
+@use 'pages/reports';
+@use 'components/bot-appearance';
+@use 'pages/login';
+@use 'pages/team';
+@use 'layout/tablet';
+@use 'layout/mobile';
+@use 'components/file-preview';
+@use 'components/dropdowns';
+@use 'base/guards';
+@use 'pages/channel';
+
+@use 'components/charts';
+@use 'pages/overview-crm';

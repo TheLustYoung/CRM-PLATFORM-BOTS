@@ -1,0 +1,16 @@
+/* Forms and settings */
+.settings { padding: 20px; }
+.settings h2 { margin-bottom: 16px; }
+.youtube-access { display: grid; gap: 16px; }
+.youtube-access .panel-title { margin: -20px -20px 0; }
+.youtube-access .panel-title h2 { margin-bottom: 0; }
+.proxy-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.proxy-list li { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.proxy-list code, .youtube-access textarea { font-family: var(--mono); font-size: 12px; overflow-wrap: anywhere; }
+.cookies-status { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+.fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+fieldset { margin: 20px 0; padding: 12px 16px 16px; border: 1px solid var(--border); border-radius: var(--r-md); display: flex; flex-wrap: wrap; gap: 16px; }
+legend { padding: 0 6px; font-family: var(--mono); font-size: 12px; text-transform: uppercase; color: var(--muted); }
+.checkbox { flex-direction: row; align-items: center; gap: 8px; font-weight: 400; color: var(--text); }
+.drawer { margin-bottom: 24px; }
+.pad { padding: 0 20px 20px; }

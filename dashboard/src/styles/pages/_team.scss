@@ -1,0 +1,4 @@
+/* Team: role cards with their permissions */
+.role-card { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.role-card .panel-title { padding: 0; border: 0; display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+.perm-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
