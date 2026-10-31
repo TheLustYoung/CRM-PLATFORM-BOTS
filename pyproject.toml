@@ -28,4 +28,5 @@ include = ["backend*", "bots*", "workers*", "storage*", "infrastructure*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]
 markers = ["live: requires public URLs and network"]
